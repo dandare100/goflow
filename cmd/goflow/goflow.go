@@ -46,10 +46,13 @@ var (
 	TemplatePath = flag.String("templates.path", "/templates", "NetFlow/IPFIX templates list")
 
 	Version = flag.Bool("v", false, "Print version")
+
+	EnableZMQ = flag.Bool("zmq", false, "Enable ZMQ")
 )
 
 func init() {
 	transport.RegisterFlags()
+	transport.RegisterZMQFlags()
 }
 
 func httpServer(state *utils.StateNetFlow) {
@@ -107,6 +110,16 @@ func main() {
 		sSFlow.Transport = kafkaState
 		sNFL.Transport = kafkaState
 		sNF.Transport = kafkaState
+
+	} else if *EnableZMQ {
+
+		zmqState, err := transport.StartZMQPublisher(log.StandardLogger())
+		if err != nil {
+			log.Fatal(err)
+		}
+		sSFlow.Transport = zmqState
+		sNFL.Transport = zmqState
+		sNF.Transport = zmqState
 	}
 
 	wg := &sync.WaitGroup{}

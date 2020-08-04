@@ -99,6 +99,10 @@ const (
 	NFV9_FIELD_layer2packetSectionOffset    = 102
 	NFV9_FIELD_layer2packetSectionSize      = 103
 	NFV9_FIELD_layer2packetSectionData      = 104
+	NFV9_FIELD_POST_NAT_SRC_IPV4_ADDR       = 225
+	NFV9_FIELD_POST_NAT_DST_IPV4_ADDR       = 226
+	NFV9_FIELD_POST_NAPT_SRC_TRANSPORT_PORT = 227
+	NFV9_FIELD_POST_NAPT_DST_TRANSPORT_PORT = 228
 )
 
 type NFv9Packet struct {
@@ -231,8 +235,12 @@ func NFv9TypeToString(typeId uint16) string {
 		104: "layer2packetSectionData",
 		234: "ingressVRFID",
 		235: "egressVRFID",
+		225: "postNatSourceIPv4Address",
+		226: "postNatDestinationIPv4Address",
+		227: "postNaptSourceTransportPort",
+		228: "postNaptDestinationTransportPort",
 	}
-
+	//left this as 104 to prevent "" return for bulldust parameters
 	if typeId > 104 || typeId == 0 {
 		return "Unassigned"
 	} else {

@@ -287,6 +287,18 @@ func ConvertNetFlowDataSet(version uint16, baseTime uint32, uptime uint32, recor
 		case netflow.NFV9_FIELD_DIRECTION:
 			DecodeUNumber(v, &(flowMessage.FlowDirection))
 
+		case netflow.NFV9_FIELD_POST_NAT_SRC_IPV4_ADDR:
+			flowMessage.PostNatSrcIpV4Addr = v
+
+		case netflow.NFV9_FIELD_POST_NAPT_SRC_TRANSPORT_PORT:
+			DecodeUNumber(v, &(flowMessage.PostNaptSrcTransportPort))
+
+		case netflow.NFV9_FIELD_POST_NAT_DST_IPV4_ADDR:
+			flowMessage.PostNatDstIpV4Addr = v
+
+		case netflow.NFV9_FIELD_POST_NAPT_DST_TRANSPORT_PORT:
+			DecodeUNumber(v, &(flowMessage.PostNaptDstTransportPort))
+
 		default:
 			if version == 9 {
 				// NetFlow v9 time works with a differential based on router's uptime
